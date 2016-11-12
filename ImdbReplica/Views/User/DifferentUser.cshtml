@@ -1,0 +1,98 @@
+﻿@model ImdbReplica.Models.UserViewModel
+
+@{
+    ViewBag.Title = @Model.Username;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 toppad">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Model.Firstname's profile</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 " align="center">
+                            @if (System.IO.File.Exists(Server.MapPath("~/Images/ProfileImages/" + Model.ProfileImagePath)))
+                            {
+                                <img class="image" src="~/Images/ProfileImages/@Model.ProfileImagePath" />
+                            }
+                            else
+                            {
+                                <img class="image" src="~/Images/Shared/icon-user-default.png" />
+                            }
+                        </div>
+
+                        <div class="col-md-8 col-lg-8">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Firstname:</td>
+                                        <td>@Model.Firstname</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lastname:</td>
+                                        <td>@Model.Lastname</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username:</td>
+                                        <td>@Model.Username</td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>@Model.Email</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <h2>@Model.Firstname's reviews:</h2>
+
+    <div class="table-responsive">
+        <table id="reviews-table" class="table table-bordred table-striped">
+            <thead>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created</th>
+            <th>Grade</th>
+            <th>Type</th>
+            <th>Show</th>
+            </thead>
+            <tbody id="review-table-data">
+                @foreach (var item in Model.ReviewViewModelList)
+                {
+                    <tr>
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.CreatedDate
+                        </td>
+                        <td>
+                            @item.UserRating
+                        </td>
+                        <td>
+                            @item.Type
+                        </td>
+                        <td>
+                            @Html.ActionLink(" ", "ShowReview", "Review", new { item.ReviewId }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-eye-open" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

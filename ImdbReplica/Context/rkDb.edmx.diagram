@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7986ba1225e6495fb1c9922f520ecd96" Name="Diagram1">
+        <EntityTypeShape EntityType="rkDBModel.CommentToReview" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="rkDBModel.Review" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="rkDBModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="rkDBModel.User" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="rkDBModel.UserToReview" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="rkDBModel.FK_CommentToReview_Review" ManuallyRouted="false" />
+        <AssociationConnector Association="rkDBModel.FK_CommentToReview_User" ManuallyRouted="false" />
+        <AssociationConnector Association="rkDBModel.FK_Review_User" ManuallyRouted="false" />
+        <AssociationConnector Association="rkDBModel.FK_UserToReview_Review" ManuallyRouted="false" />
+        <AssociationConnector Association="rkDBModel.FK_UserToReview_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

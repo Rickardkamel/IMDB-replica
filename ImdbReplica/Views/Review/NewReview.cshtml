@@ -1,0 +1,74 @@
+﻿@model ImdbReplica.Models.ReviewViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/NewReview.js"></script>
+
+<h2 style="text-align: center;">Create a new review</h2>
+<hr>
+@using (@Html.BeginForm("CreateNewReview", "Review", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="prependedtext"></label>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">Title</span>
+                    @Html.TextBoxFor(x => x.Title, new {@class = "form-control", @placeholder = "ex. The Hobbit", @id="title-input"})
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for=""></label>
+            <div class="col-md-4">
+                @Html.TextAreaFor(x => x.Description, new {@class = "form-control", @placeholder = "Description | ex. The book was very interesting from start to end...", @id = "description-input" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="">Select type</label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(x => x.Type, Model.Values, new {@class = "form-control"})
+                @Html.ValidationMessageFor(x => x.Type)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="radios">Rating</label>
+            <div class="col-md-4">
+                <p>
+                    @foreach (var item in Model.RatingValues)
+                    {
+                        @Html.Label(item.Text, new { @class="radio-inline" })
+                        @Html.RadioButtonFor(x => x.UserRating, item.Value)
+                    }
+                    @Html.ValidationMessageFor(x => x.UserRating)
+                </p>
+                <p>
+                    @Html.ValidationMessage("InvalidRating", new { @class = "ui-state-error-text" })
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="filebutton"></label>
+            <div class="col-md-4">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for=""></label>
+            <div class="col-md-4">
+                <input id="submit-btn" type="submit" value="Create review" class="btn btn-info" />
+            </div>
+        </div>
+
+
+    </div>
+}

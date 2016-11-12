@@ -1,0 +1,64 @@
+﻿@model ImdbReplica.Models.UserViewModel
+
+@{
+    ViewBag.Title = "Your page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 toppad  ">
+            @Html.ActionLink("Edit profile", "EditUser", "User")
+            <hr>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 toppad">
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Your profile</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4 col-lg-4 " align="center">
+                            @if (System.IO.File.Exists(Server.MapPath("~/Images/ProfileImages/" + Model.ProfileImagePath)))
+                            {
+                                <img class="image" src="~/Images/ProfileImages/@Model.ProfileImagePath" />
+                            }
+                            else
+                            {
+                                <img class="image" src="~/Images/Shared/icon-user-default.png" />
+                            }
+                        </div>
+
+                        <div class="col-md-8 col-lg-8">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Firstname:</td>
+                                        <td>@Model.Firstname</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lastname:</td>
+                                        <td>@Model.Lastname</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username:</td>
+                                        <td>@Model.Username</td>
+                                    </tr>
+
+                                    <tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td>@Model.Email</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

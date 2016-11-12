@@ -1,0 +1,90 @@
+﻿@model ImdbReplica.Models.UserViewModel
+
+
+@{
+    ViewBag.Title = "Edit user";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/User.js"></script>
+<div class="col-lg-12 col-md-12">
+    <div class="col-lg-6 col-md-6">
+        <div id="edit-user-content-wrapper">
+            <div id="edit-user-information">
+                <h2>Edit profile</h2>
+                @using (@Html.BeginForm("UpdateUser", "User"))
+                {
+                    <p>
+                        @Html.Label("Firstname:")
+                    </p>
+                    <p>
+                        @Html.TextBoxFor(x => x.Firstname)
+                        @Html.ValidationMessageFor(x => x.Firstname, null, new { @class = "ui-state-error-text" })
+                    </p>
+                    <p>
+                        @Html.Label("Lastname:")
+                    </p>
+                    <p>
+                        @Html.TextBoxFor(x => x.Lastname)
+                        @Html.ValidationMessageFor(x => x.Lastname, null, new { @class = "ui-state-error-text" })
+                    </p>
+                    <p>
+                        @Html.Label("Username:")
+                    </p>
+                    <p>
+                        @Html.TextBoxFor(x => x.Username)
+                        @Html.ValidationMessageFor(x => x.Username, null, new { @class = "ui-state-error-text" })
+                    </p>
+                    <p>
+                        @Html.Label("Email:")
+                    </p>
+                    <p>
+                        @Html.TextBoxFor(x => x.Email)
+                        @Html.ValidationMessageFor(x => x.Email, null, new { @type="email", @class = "ui-state-error-text" })
+                    </p>
+                    <p>
+                        @Html.ValidationMessage("AlreadyExistsError")
+                    </p>
+                    <div>
+                        <input type="submit" value="Save changes" class="btn btn-success" onclick="return confirm('Are you sure you want to save changes?')" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+        <div id="edit-user-profile-picture">
+            <h2>Add image</h2>
+            <h4>Current profile image</h4>
+            @if (System.IO.File.Exists(Server.MapPath("~/Images/ProfileImages/" + Model.ProfileImagePath)))
+            {
+                <img class="image" src="~/Images/ProfileImages/@Model.ProfileImagePath" />
+            }
+            else
+            {
+                <img class="image" src="~/Images/Shared/icon-user-default.png" />
+            }
+            @using (Html.BeginForm("Upload", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="file" name="file" />
+                    <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-primary" onclick="
+                           return confirm('Are you sure that you want to upload this picture?')" />
+            }
+        </div>
+
+        <div id="edit-user-password">
+            <h2>Change password</h2>
+            @Html.ActionLink("Click here to change your password", "EditPassword", "User", null, new { @class = "btn btn-info" })
+        </div>
+
+        <div id="edit-user-remove">
+            <h2>Remove your account</h2>
+            @using (Html.BeginForm("DeleteUser", "User"))
+            {
+                <input type="submit" value="Remove account" class="btn btn-danger" onclick="
+                       return confirm('Are you sure that you want to remove this account?')" />
+            }
+        </div>
+    </div>
+</div>

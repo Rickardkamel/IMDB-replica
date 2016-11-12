@@ -1,0 +1,45 @@
+﻿@model ImdbReplica.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-horizontal">
+    @using (@Html.BeginForm("UserLogIn", "Account"))
+    {
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for=""></label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(x => x.Username, new { @class = "form-control input-md", @placeholder = "Username" })
+                @Html.ValidationMessageFor(x => x.Username, null, new { @class = "ui-state-error-text" })
+            </div>
+        </div>
+
+        <!-- Password input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for=""></label>
+            <div class="col-md-4">
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control input-md", @placeholder = "Password" })
+                @Html.ValidationMessageFor(x => x.Password, null, new { @class = "ui-state-error-text" })
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <div class="form-group">
+            <div class="col-md-offset-5">
+                <button type="submit" id="btn-login" class="btn btn-info">Log in</button>
+
+                @Html.ValidationMessage("CredentialError", new { @class = "ui-state-error-text" })
+            </div>
+        </div>
+
+    }
+    <div class="col-md-offset-5">
+        @Html.ActionLink("Don't have an account? Register here!", "Register", "Account")
+    </div>
+</div>
+
+
+

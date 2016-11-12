@@ -1,0 +1,206 @@
+﻿@model List<ImdbReplica.Models.AllReviewsViewModel>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/Review.js"></script>
+<div>
+    <select id="sortReviews">
+        <option value="1">Title</option>
+        <option value="2">Rank</option>
+        <option value="3">Likes</option>
+        <option value="4">Dislikes</option>
+        <option value="5">Date</option>
+        <option value="6">Type</option>
+    </select>
+    <button id="btnSortReviews" class="btn btn-primary">Sort</button>
+</div>
+
+<div>
+    <input id="tbSearchInput" type="text" />
+    <button id="btnSearchReview" class="btn btn-primary">Search</button>
+</div>
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>All reviews</h4>
+
+                <div class="table-responsive">
+
+                    <table id="allReviewsTable" class="table table-bordred table-striped">
+                        <thead>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Created</th>
+                        <th>Grade</th>
+                        <th>Total grade</th>
+                        <th>Type</th>
+                        <th>Likes</th>
+                        <th>Dislikes</th>
+                        <th>Author</th>
+                        <th>Show</th>
+                        </thead>
+                        <tbody id="tableWrapper">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td>
+                                        @item.CreatedDate
+                                    </td>
+                                    <td>
+                                        @item.UserRating
+                                    </td>
+                                    <td>
+                                        @item.TotalRating
+                                    </td>
+                                    <td>
+                                        @item.Type
+                                    </td>
+                                    <td>
+                                        @item.Likes
+                                    </td>
+                                    <td>
+                                        @item.DisLikes
+                                    </td>
+                                    <td>
+                                        @if (item.HasProfilePicture == true)
+                                        {
+                                            <img id="all-review-img" src="@Url.Content("~/Images/ProfileImages/" + @item.CreatorUserId + ".png")" />
+                                        }
+                                        else
+                                        {
+                                            <img id="all-review-img" src="~/Images/Shared/icon-user-default.png" />
+                                        }
+                                        @Html.ActionLink(item.CreatedBy, "DifferentUser", "User", new { item.CreatorUserId }, null)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink(" ", "ShowReview", "Review", new { item.ReviewId }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-eye-open" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    <hr />
+                    <div class="clearfix"></div>
+                    <ul class="pagination pagination-lg pager" id="myPager"></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+else
+{
+    <h3>There is no reviews yet, create one to get started!</h3>
+}
+
+
+@*<h2>Alla recensioner</h2>
+
+    <div>
+        <select id="sortReviews">
+            <option value="1">Titel</option>
+            <option value="2">Ranking</option>
+            <option value="3">Gillar</option>
+            <option value="4">Ogillar</option>
+            <option value="5">Datum</option>
+            <option value="6">Typ</option>
+        </select>
+        <button id="btnSortReviews" class="btn btn-primary">Sortera</button>
+    </div>
+    <div>
+        <input id="tbSearchInput" type="text" />
+        <button id="btnSearchReview" class="btn btn-primary">Sök</button>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="table-responsive">
+
+            <table id="allReviewsTable" class="table table-bordred table-striped">
+                <tr>
+                    <th>Titel</th>
+                    <th>Beskrivning</th>
+                    <th>Skapad den</th>
+                    <th>Betyg</th>
+                    <th>Totala betyget</th>
+                    <th>Typ</th>
+                    <th>Gillar</th>
+                    <th>Ogillar</th>
+                    <th>Författare</th>
+                    <th></th>
+                </tr>
+                <tbody id="tableWrapper">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Title
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.CreatedDate
+                            </td>
+                            <td>
+                                @if (item.UserRating == 1)
+                                {
+                                    @item.UserRating@: stjärna
+                        }
+                        else
+                        {
+                                    @item.UserRating@: stjärnor
+                        }
+                            </td>
+                            <td>
+                                @item.TotalRating.ToString("n1")
+                            </td>
+                            <td>
+                                @item.Type
+                            </td>
+                            <td>
+                                @item.Likes
+                            </td>
+                            <td>
+                                @item.DisLikes
+                            </td>
+                            <td>
+                                @if (item.HasProfilePicture == true)
+                        {
+                                    <img id="all-review-img" src="@Url.Content("~/Images/ProfileImages/" + @item.CreatorUserId + ".png")" />
+                                }
+                                else
+                                {
+                                    <img id="all-review-img" src="~/Images/Shared/default-user-image.png" />
+                                }
+                                @Html.ActionLink(item.CreatedBy, "DifferentUser", "User", new { item.CreatorUserId }, null)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Visa", "ShowReview", "Review", new { item.ReviewId }, null)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+            <ul class="pagination pagination-lg pager" id="myPager"></ul>
+    }
+    else
+    {
+        <h3>Finns inga recensioner att visa än... Skapa en själv för att komma igång!</h3>
+    }*@
+

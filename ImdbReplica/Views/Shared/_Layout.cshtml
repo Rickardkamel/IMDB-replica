@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - IMDB-Replica</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <script src="~/Scripts/User.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="logout-container">
+                @if (Session["userId"] != null)
+                {
+                    @Html.ActionLink("Log Out: (" + Session["userName"] + ")", "UserLogOut", "Account", new { area = "" }, new { @class = "navbar-brand pull-right" })
+                }
+            </div>
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (Session["userId"] == null)
+                {
+                    @Html.ActionLink("IMDB-Replica", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+                    @Html.ActionLink("Log In", "Login", "Account", new {area = ""}, new {@class = "navbar-brand"})
+                }
+                else
+                {
+                    @Html.ActionLink("All reviews", "Reviews", "Review", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Your reviews", "Index", "Review", new { area = "" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Your profile", "Index", "User", new { area = "" }, new { @class = "navbar-brand" })
+
+                    <div class="navbar-brand no-mouseover" style="margin-top: -6px;">
+                        Search user:
+                        <input type="text" id="user-search-input" />
+                        <input type="submit" id="user-search-button" class="btn btn-primary" value="Search" />
+                    </div>
+
+                }
+
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content" style="margin-top: 100px;">
+        @RenderBody()
+        <hr />
+        <footer>
+            <h4>Contact:</h4>
+            <p>IMDB-Replica - Contact Person: Rickard Kamel - RickardKamel@gmail.com </p>
+            <p>&copy; @DateTime.Now.Year - IMDB-Replica AB.</p>
+        </footer>
+    </div>
+
+    
+</body>
+</html>

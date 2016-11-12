@@ -1,0 +1,124 @@
+﻿@model ImdbReplica.Models.AllReviewsViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/ShowReview.js"></script>
+
+
+<h2>Review for: @Model.Title</h2>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">People who left a rating:</h4>
+            </div>
+            <div id="modal-wrapper" class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    @if (System.IO.File.Exists(Server.MapPath("~/Images/ReviewImages/" + Model.ReviewImagePath)))
+    {
+        <img class="image" src="~/Images/ReviewImages/@Model.ReviewImagePath" />
+    }
+    else
+    {
+        <img class="image" src="~/Images/Shared/icon-user-default.png" />
+    }
+</div>
+
+<div>
+    <p>
+        Title: @Model.Title
+    </p>
+    <p>
+        Description: @Model.Description
+    </p>
+    <p>
+        Type: @Model.Type
+    </p>
+    <p>
+        Authors rating: @Model.UserRating stars
+    </p>
+    <p>
+        Review rating: <button id="rating" class="btn-link" value="@Model.ReviewId" data-toggle="modal" data-target="#myModal">@Model.TotalRating.ToString("n1")</button> of 5
+    </p>
+    <p>
+        Likes: <span id="likesSpan">@Model.Likes</span>
+    </p>
+    <p>
+        Dislikes: <span id="disLikesSpan">@Model.DisLikes</span>
+    </p>
+    <p>
+        Author: @Html.ActionLink(Model.CreatedBy, "DifferentUser", "User", new { Model.CreatorUserId }, null)
+    </p>
+
+    @{
+        if (Session["userId"] == null)
+        {
+            Response.Redirect("/Home/Index");
+        }
+        else
+        {
+            var userId = (Guid)Session["userId"];
+            if (Model.CreatorUserId != userId)
+            {
+                <h3>Rate this review:</h3>
+                <div>
+                    @foreach (var item in Model.RatingValues)
+                    {
+                        @Html.Label(item.Text)
+                        @Html.RadioButtonFor(x => x.UserRating, item.Value, new { id = "rating-rdb", @class = "radio" })
+                    }
+                    <button id="rate-review" class="btn btn-primary">Rate</button>
+                </div>
+                <div>
+                    <button id="btn-like" value="@Model.ReviewId" class="btn btn-success glyphicon glyphicon-thumbs-up"></button>
+                    <button id="btn-dislike" value="@Model.ReviewId" class="btn btn-danger glyphicon glyphicon-thumbs-down"></button>
+                </div>
+            }
+        }
+    }
+</div>
+
+<h3>Comments:</h3>
+<div id="comment-wrapper">
+    @if (Model.CommentToReviewList.Count > 0)
+    {
+        foreach (var item in Model.CommentToReviewList)
+        {
+            <p>
+                @Html.Label(item.User.Username + ": " + item.Comment + ", " + item.CreatedDate)
+            </p>
+        }
+    }
+    else
+    {
+        <p id="no-comments-text">There are no comments on this review yet.</p>
+    }
+
+</div>
+
+<h3>Leave a comment:</h3>
+@Html.HiddenFor(x => x.ReviewId)
+<p>
+    @Html.TextArea("txtAreaComment", new { id = "txt-area-comment" })
+</p>
+<div>
+    <button id="add-comment" class="btn btn-primary" value="@Model.ReviewId">Klar</button>
+</div>
